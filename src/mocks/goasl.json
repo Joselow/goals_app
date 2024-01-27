@@ -1,0 +1,18 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Hacer la compra",
+      "description": "Comprar alimentos y productos de primera necesidad",
+      "completed": false
+    },
+    {
+      "id": 2,
+      "title": "Estudiar para el examen",
+      "description": "Revisar apuntes y resolver problemas prácticos",
+      "completed": true
+    }
+ 
+  ]
+}
+

@@ -2,7 +2,7 @@
 // import goals from '@/mocks/goasl.json'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
-import ButtonCreateGoald from './ButtonCreateGoald.vue';
+import ButtonCreateGoal from './ButtonCreateGoal.vue';
 import Card from '@/common/GoalCard.vue'
 import StrictBudge from '@/common/StrictBudge.vue'
 import ConfirmModal from '@/common/ConfirmModal.vue';
@@ -62,7 +62,7 @@ const confirmDeleteGoal = () => {
           </Card>
         </li> 
       </template>      
-      <ButtonCreateGoald/>
+      <ButtonCreateGoal/>
     </ul>
     
   </div>

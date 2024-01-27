@@ -10,10 +10,10 @@ const storeGoal = ref< InstanceType<typeof StoreGoal> | null >(null)
 <template>
   <StoreGoal ref="storeGoal"/>
 
-  <div class="border rounded-lg p-2 flex items-center justify-center cursor-pointer hover:text-green-600
+  <button class="border rounded-lg p-2 flex items-center justify-center  hover:text-green-600
     hover:bg-green-900/20"
     @click="storeGoal?.handleCreateGoal()"
   >        
     <i class="pi pi-plus text-3xl"></i>
-  </div>
+  </button>
 </template>

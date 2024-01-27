@@ -2,7 +2,7 @@
 import LoadingButton from './LoadingButton.vue'
 import CustomModal from './CustomModal.vue';
 interface Props {
-  show: boolean,
+  show?: boolean,
   title?: string
   loading?: boolean
 }

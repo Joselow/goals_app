@@ -12,7 +12,6 @@ defineProps<{ loading: boolean }>()
     <template v-else>
           <slot />
     </template>
-  
   </button>
 </template>
 

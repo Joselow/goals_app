@@ -5,7 +5,7 @@ import { type Goal } from '@/types/index'
 import { useGoals } from '@/composables/useGoals'
 import StrictBudge from '@/common/StrictBudge.vue'
 
-const { createGoal } = useGoals()
+const { createGoal, addGoalsTryTwo } = useGoals()
 
 const nameInputForm = ref<HTMLInputElement | null>(null)
 
@@ -44,12 +44,13 @@ const handleCreateGoal = async() => {
   })
 }
 
-const storeGoal = () => {
+const storeGoal = async() => {
   try {  
-    createGoal({ ...goal})
+    // await createGoal({ ...goal})
+    await addGoalsTryTwo({ ...goal})
     closeModal()
   } catch (error) {
-    alert('something went wrong')
+    // alert('something went wrong')
   }
 }
 
@@ -59,8 +60,7 @@ const plusEvent = (event: KeyboardEvent) => {
   if (show.value) return
   if (event.key === '+' || event.code === 'NumpadAdd') {
     handleCreateGoal()
-    console.log('aaaaaaaaaa');
-    
+    event.preventDefault();
   }
 }
 onMounted(() => {

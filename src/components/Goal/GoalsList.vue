@@ -1,5 +1,7 @@
 <script setup lang="ts">
 // import goals from '@/mocks/goasl.json'
+import { DatabaseError, RequestError } from "@/ManagementErrors/Index";
+
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import ButtonCreateGoal from './ButtonCreateGoal.vue';
@@ -8,18 +10,36 @@ import StrictBudge from '@/common/StrictBudge.vue'
 import ConfirmModal from '@/common/ConfirmModal.vue';
 import { useGoals } from '@/composables/useGoals'
 
-const { getGoals, goals, deleteGoal } = useGoals()
+const { getGoals, goals, deleteGoal, getReallyGoalsTryTwo, goalsTry } = useGoals()
 
-getGoals()
+getReallyGoalsTryTwo()
+// const getData = async() =>{
+//   try {
+//     await getGoals()
+//   } catch (error) {
+//     console.log(error);
+        
+//     if (error instanceof DatabaseError){
+//       alert('Error en la DB')
+//     } else if (error instanceof RequestError) {
+//       alert('Error when obtaining data')
+//     }
+//     else {
+//       alert('Sorry something went wrong')
+//     }
+//   }
+// }
+
+// getData()
+
 const router = useRouter()
 const goToGoal = (id: string) => {
-  console.log('aaaaaaaaaaaa');
   router.push({
-        name: 'goal',
-        params: {
-          id
-        },
-      })
+    name: 'goal',
+    params: {
+      id
+    },
+  })
 }
 
 const showAlertModal = ref(false)
@@ -52,12 +72,17 @@ const confirmDeleteGoal = () => {
   <div>
     <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
     >
-      <template v-for="{ id, strict, name } in goals" :key="id"  >
+      <template v-for="{ id, strict, name } in goalsTry" :key="id"  >
         <li>              
-          <Card class="h-full "  @go="goToGoal(id)" @wait="handleDeleteGoal(id)"       > 
+          <Card class="h-full " @go="goToGoal(id)" @wait="handleDeleteGoal(id)"       > 
             <template #title>
               <StrictBudge :strict="strict" />
               {{ name }}
+            </template>
+            <template #action>
+              <span>
+                leave                
+              </span>
             </template>
           </Card>
         </li> 

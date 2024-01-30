@@ -1,8 +1,10 @@
 import type { Goal } from "@/types";
 
-import { addGoal, getGoals as getAll, deleteGoal as deleteOne  } from '@/services/indexedDB';
-import { ref, nextTick } from "vue";
+import { addGoal, getGoalsS as getAll, deleteGoal as deleteOne  } from '@/services/indexedDB';
+import { ref, nextTick, toValue } from "vue";
+import { useGoaslService } from '@/composables/useGoalService'
 
+const { getGoalsTry, goalsTry, addGoalsTry }= useGoaslService()
 const goals = ref<Goal []>([])
 
 // interface serviceDB {
@@ -23,29 +25,19 @@ export function useGoals () {
   }
 
   const getGoals = async() => {
-    try {
       const data = await getAll()
       sortLastGoals(data)
-    } catch (error) {
-      console.log('Error:', error);
-      return false
-    }    
   }
 
   const createGoal = async(data: Goal) => {   
     data.id = crypto.randomUUID()    
 
-    try {
-      const { status } = await addGoal(data)
-      console.log(status);
-      
-      if (status) {
-        goals.value.push(data)
-        sortLastGoals(goals.value)
-      } 
-    } catch (error) {
-      throw new Error('adssssssssssssss')
-    }
+    const { message } = await addGoal(data)    
+    
+    // if (status) {
+      goals.value.push(data)
+      sortLastGoals(goals.value)
+    // } 
   }
 
   const updateGoal = (data: Goal) => {
@@ -53,22 +45,63 @@ export function useGoals () {
 
   const deleteGoal = async(id: string) => {
     try {
-      const { status } = await deleteOne(id)
-      if (status) {  
+      const { message } = await deleteOne(id)
+      // if (status) {  
         const indexGoal = goals.value.findIndex(el => el.id === id)
         
         if (indexGoal !== -1){
           // await nextTick()
           goals.value.splice(indexGoal, 1)
         }
-      }       
+      // }       
     } catch (error) {
       throw new Error('adssssssssssssss')
     }
   }
 
+  const getReallyGoalsTryTwo = async() => {
+    try {
+      await getGoalsTry()
+      // alert('NICEEEEE')  /// opcional
+
+      goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) // - primera opcion que no me convece
+      // ya que tendria que devolver el ref desde aca o llamarlo enel copnnete desde el otro asi que no lo veo aunque
+      // ponete a pensar que puede ser ay que esto ismplement es como si lo suariamos en un componente solo que en
+      // otro archivo  pensando que seria reutilizable pero no es l genralidad asi que croeque taba bien xd
+      // goals.value = sortLastGoalsTry(toValue(goalsTry.value)) // - segunda opcion en la que aca lo meto al ref desde aca  y secdhingó
+
+    } catch (error) {
+      alert('Nos se porque se rompio creo que soy manco owo')
+    }      
+  }
+
+  const addGoalsTryTwo = async (data: Goal) => {
+    data.id = crypto.randomUUID()  
+    data.date = new Date()  
+
+    try {
+      await addGoalsTry(data)
+      goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) 
+    } catch (error) {
+      alert('Nos se porque se rompio creo que soy manco owo')
+    }
+  }
+
+  const sortLastGoalsTry = (data: Goal[]) => {
+    return data.sort((a, b) => {      
+      const dateA = a.date.getTime() 
+      const dateB = b.date.getTime() 
+      return dateB - dateA;
+    })
+  }
+
+
   return {
     goals,
-    getGoals, createGoal, updateGoal, deleteGoal
+    getGoals, createGoal, updateGoal, deleteGoal, 
+    
+    getReallyGoalsTryTwo,
+    addGoalsTryTwo, 
+    goalsTry
   }
 }

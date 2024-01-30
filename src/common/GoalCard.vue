@@ -18,13 +18,13 @@
       
     </section>
     <div class="absolute right-0 bottom-0 text-end me-3">
-      <slot name="action">
-        <button class=" text-gray-500 text-xs hover:text-red-600 "
-          @click="$emit('wait')"
-        >
+      <button class=" text-gray-500 text-xs hover:text-red-600 "
+      @click="$emit('wait')"
+      >
+        <slot name="action">
           leave
-        </button>
-      </slot>
+        </slot>
+      </button>
     </div>
   </div>
 </template>

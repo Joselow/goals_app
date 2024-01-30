@@ -1,8 +1,9 @@
 // API indexedDB  JS
 
-import { DatabaseError, RequestError } from "@/ManagementErrors/Index";
+import { DatabaseError, RequestError, ValidationError } from "@/ManagementErrors/Index";
 
 import type { Goal } from "@/types";
+import { validationCreateGoal } from "@/validations/GoalSchema";
 interface Response {
   message: string,
 }
@@ -39,7 +40,6 @@ const closeDatabase = () => {
     db = null;
   }
 };
-
 // De moemnto esta comnetado los errores ya que no entran ahi no se que aa que se deba
 
 const getGoalsS = async (): Promise< Goal []> => {
@@ -61,10 +61,16 @@ const getGoalsS = async (): Promise< Goal []> => {
     // };
   });
 };
-
+function formatValidationErrors(errors: any[]): string[] {
+  return errors.map(error => `${error.path.join('.')} : ${error.message}`);
+}
 const addGoal = async(data: Goal): Promise <Response> => {
-  // console.log(data);
-  
+  const result = validationCreateGoal(data)
+  if (!result.success) {
+    const errors = formatValidationErrors(JSON.parse(result.error.message))
+    throw new ValidationError(errors)
+  }
+
   const db = await openDatabase();
 
   return new Promise((resolve, reject) => {
@@ -81,7 +87,6 @@ const addGoal = async(data: Goal): Promise <Response> => {
   })
 }
 // const updateGoal = (data: Goal) => {
-
 // }
 const deleteGoal = async(id: string): Promise <Response> => {
   const db = await openDatabase();

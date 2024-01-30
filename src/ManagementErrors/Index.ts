@@ -10,3 +10,12 @@ export class RequestError extends Error {
     this.name = 'RequestError'
   }
 }
+
+export class ValidationError extends Error {
+  public errors: any;
+  constructor(errors: any, message: string = 'Validation error occurred') {
+    super(message);
+    this.name = 'ValidationError';
+    this.errors = errors;
+  }
+}

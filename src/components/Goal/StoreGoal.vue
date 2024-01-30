@@ -12,7 +12,7 @@ const nameInputForm = ref<HTMLInputElement | null>(null)
 const goal: Goal = reactive({
   id: '',
   date: new Date(),
-  name: "",
+  name: '',
   // tasks: [
   //   { id: "1", name: "Tarea 1", priority: true },
   //   { id: "2", name: "Tarea 2", priority: false },
@@ -90,7 +90,7 @@ onUnmounted(() => {
                 focus:outline-none focus:ring focus:ring-amber-300
                 block w-full p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-amber-500 dark:focus:border-amber-500"
-              placeholder="Learning to play piano" required 
+              placeholder="Learning to play piano"           
               v-model="goal.name">
           </div>
           <div class="items-start mb-5">

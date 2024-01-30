@@ -1,7 +1,5 @@
 <script setup lang="ts">
 // import goals from '@/mocks/goasl.json'
-import { DatabaseError, RequestError } from "@/ManagementErrors/Index";
-
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import ButtonCreateGoal from './ButtonCreateGoal.vue';

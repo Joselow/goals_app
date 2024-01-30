@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { getGoalsS, addGoal, deleteGoal  } from '@/services/indexedDB'
-import { DatabaseError } from '@/ManagementErrors/Index'
+import { DatabaseError, ValidationError } from '@/ManagementErrors/Index'
 import type { Goal } from '@/types'
 
 const goalsTry = ref<Goal []>([])
@@ -25,14 +25,15 @@ export function useGoaslService() {
       await addGoal(data)
       goalsTry.value.push(data)
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       
       if (error instanceof DatabaseError) {
         alert('la datbse murio :C xd')
       }
-      // else if (error instanceof ValidationError) {
-      //   alert('Errores de validacion wn manco qlo')
-      // }
+      else if (error instanceof ValidationError) {
+        console.log(error.errors);  
+        // alert(`Errores de validacion wn manco qlo ${JSON.parse(error.errors)}`)
+      }
       else {
         alert('Sorry somenthing went wrong xd')
       }

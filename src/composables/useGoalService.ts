@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { getGoalsS,addGoal  } from '@/services/indexedDB'
+import { getGoalsS, addGoal, deleteGoal  } from '@/services/indexedDB'
 import { DatabaseError } from '@/ManagementErrors/Index'
 import type { Goal } from '@/types'
 
@@ -40,8 +40,27 @@ export function useGoaslService() {
 
   }
 
+  const deleteGoalTry = async (id: string) => {
+    try {
+      await deleteGoal(id)
+
+      const indexGoal = goalsTry.value.findIndex(el => el.id === id)        
+      if (indexGoal !== -1){
+        goalsTry.value.splice(indexGoal, 1)
+      }
+    } catch (error) {
+      if (error instanceof DatabaseError) {
+        alert('la datbse murio :C xd')
+      }
+      else {
+        alert('Sorry somenthing went wrong xd')
+      }
+    }
+  }
+
   return {
     getGoalsTry, goalsTry,
-    addGoalsTry
+    addGoalsTry,
+    deleteGoalTry
   }
 }

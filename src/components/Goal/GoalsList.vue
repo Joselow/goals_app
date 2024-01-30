@@ -10,27 +10,9 @@ import StrictBudge from '@/common/StrictBudge.vue'
 import ConfirmModal from '@/common/ConfirmModal.vue';
 import { useGoals } from '@/composables/useGoals'
 
-const { getGoals, goals, deleteGoal, getReallyGoalsTryTwo, goalsTry } = useGoals()
+const { getReallyGoalsTryTwo, goalsTry, deleteGoalTryTwo } = useGoals()
 
 getReallyGoalsTryTwo()
-// const getData = async() =>{
-//   try {
-//     await getGoals()
-//   } catch (error) {
-//     console.log(error);
-        
-//     if (error instanceof DatabaseError){
-//       alert('Error en la DB')
-//     } else if (error instanceof RequestError) {
-//       alert('Error when obtaining data')
-//     }
-//     else {
-//       alert('Sorry something went wrong')
-//     }
-//   }
-// }
-
-// getData()
 
 const router = useRouter()
 const goToGoal = (id: string) => {
@@ -53,13 +35,9 @@ const handleDeleteGoal = (id: string) => {
   idToDelete.value = id
 }
 
-const confirmDeleteGoal = () => {  
-  try {
-    deleteGoal(idToDelete.value)
-    closeAlertModal()
-  } catch (error) {
-    alert('something went wrong ')
-  }
+const confirmDeleteGoal = async () => {  
+  await deleteGoalTryTwo(idToDelete.value)
+  closeAlertModal()
 }
 </script>
 

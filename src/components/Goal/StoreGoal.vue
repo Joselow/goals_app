@@ -5,7 +5,7 @@ import { type Goal } from '@/types/index'
 import { useGoals } from '@/composables/useGoals'
 import StrictBudge from '@/common/StrictBudge.vue'
 
-const { createGoal, addGoalsTryTwo } = useGoals()
+const {addGoalsTryTwo } = useGoals()
 
 const nameInputForm = ref<HTMLInputElement | null>(null)
 
@@ -45,13 +45,8 @@ const handleCreateGoal = async() => {
 }
 
 const storeGoal = async() => {
-  try {  
-    // await createGoal({ ...goal})
-    await addGoalsTryTwo({ ...goal})
-    closeModal()
-  } catch (error) {
-    // alert('something went wrong')
-  }
+  await addGoalsTryTwo({ ...goal})
+  closeModal()
 }
 
 defineExpose({ handleCreateGoal })

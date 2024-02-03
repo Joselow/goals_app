@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { getGoalsS, addGoal, deleteGoal  } from '@/services/indexedDB'
+import { getGoalsS, addGoal, deleteGoal, updateGoal  } from '@/services/indexedDB'
 import { DatabaseError, ValidationError, RequestError } from '@/CustomErrors/Index'
 import { validationCreateGoal } from "@/validations/GoalSchema";
 
@@ -57,6 +57,41 @@ export function useGoaslService() {
       return { success: false }
     }
   }
+  const updateGoalsTry = async(data: Goal): Promise<StatusResponse> => {
+    try {
+      const result = validationCreateGoal(data)
+      if (!result.success) {
+        const errors = formatValidationErrors(JSON.parse(result.error.message))        
+        throw new ValidationError(errors)
+      }        
+      await updateGoal(data)
+
+      const indexGoal = goalsTry.value.findIndex(el => el.id === data.id)        
+      if (indexGoal !== -1){
+        goalsTry.value[indexGoal] = data
+        console.log('Updated wn owo');
+        
+      }    
+
+      return { success: true }
+    } catch (error) {
+      if (error instanceof DatabaseError) {
+        alert('la datbse murio :C xd')
+      } 
+      else if (error instanceof ValidationError) {        
+        console.log(error.errors);        
+      }
+      else if (error instanceof RequestError){
+        alert('La peticion se realizo mal :C xd')
+      }
+      else {
+        console.log(error);
+
+        alert('Sorry somenthing went wrong xd')
+      }
+      return { success: false }
+    }
+  }
 
   const deleteGoalTry = async (id: string): Promise<StatusResponse> => {
     try {
@@ -76,6 +111,7 @@ export function useGoaslService() {
         alert('La peticion se realizo mal :C xd')
       }
       else {
+        
         alert('Sorry somenthing went wrong xd')
       }
       return { success: false }
@@ -85,6 +121,7 @@ export function useGoaslService() {
   return {
     getGoalsTry, goalsTry,
     addGoalsTry,
-    deleteGoalTry
+    deleteGoalTry,
+    updateGoalsTry
   }
 }

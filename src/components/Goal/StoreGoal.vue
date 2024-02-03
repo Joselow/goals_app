@@ -70,7 +70,7 @@ onUnmounted(() => {
 <template>
   <Modal :show="show" :closeable="true" @close="show = false" max-width="sm">
     <div class="py-6 px-4 relative">
-      <div class="text-center p-1 mb-2 font-bold text-white">Your Goal 
+      <div class="text-center p-1 mb-2 font-bold text-white">Your Goal is  
         <StrictBudge :strict="goal.strict" />      
       </div>
 
@@ -94,25 +94,33 @@ onUnmounted(() => {
               v-model="goal.name">
           </div>
           <div class="items-start mb-5">
-            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Is Strict?</label>
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Strictness</label>
     
               <div class="w-full flex gap-2 justify-center text-white ">
                 <button
                   type="button"
-                  class="w-4/12 border border-red-400  rounded-md px-4 py-1 transition duration-300 ease-in-out hover:bg-red-800 transform hover:scale-105"
+                  class="w-6/12 border border-red-400  rounded-md px-4 py-1 transition duration-300 ease-in-out hover:bg-red-800 transform hover:scale-105"
                   :class="{ 'bg-red-900 ': goal.strict}"
                   @click="goal.strict = true"
                   >
-                  <span class="font-black">Yes 😈</span>
+                  <span class="font-black">
+                    <!-- Yes 😈 -->
+                  </span>
+                  😈 Strict
+                  <!-- <StrictBudge :strict="true" />       -->
+
                 </button>
 
                 <button
                   type="button"
-                  class="w-4/12 border border-green-400 rounded-md px-3 py-1 transition duration-300 ease-in-out hover:bg-green-700 transform hover:scale-105"
+                  class="w-6/12 border border-green-400 rounded-md px-3 py-1 transition duration-300 ease-in-out hover:bg-green-700 transform hover:scale-105"
                   :class="{ 'bg-green-500 ': !goal.strict}"
                   @click="goal.strict = false"
                   >
-                  <span class=" font-bold">Nop 😎</span>
+                  <!-- <span class=" font-bold">Nop </span> -->
+                  😎 Relax
+                  <!-- <StrictBudge :strict="false" />       -->
+
                 </button>
               </div>
 
@@ -125,7 +133,7 @@ onUnmounted(() => {
           <div class="flex justify-end mt-2">
             <button type="submit"
               class="rounded-lg text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-sm w-full sm:w-auto px-5 py-1.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">
-              Submit 
+              Submit  
             </button>
           </div>
         </form>

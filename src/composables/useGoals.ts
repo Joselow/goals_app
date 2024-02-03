@@ -4,7 +4,7 @@ import { ref, toValue } from "vue";
 import { useGoaslService } from '@/composables/useGoalService'
 import { useToast } from '@/composables/useToast'
 
-const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry } = useGoaslService()
+const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry, updateGoalsTry } = useGoaslService()
 
 const goals = ref<Goal []>([])
 
@@ -33,6 +33,15 @@ export function useGoals () {
     }  
   }
 
+  const updateGoalsTryTwo = async (data: Goal) => {
+
+    const { success } = await updateGoalsTry(data)   
+    if (success) {
+      // goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) 
+      launchToast({msg: 'Goal updated successfully', time: 4000, css: 'bg-green-600'})
+    }  
+  }
+
   const sortLastGoalsTry = (data: Goal[]) => {    
     return data.sort((a, b) => {      
       const dateA = a.date.getTime() 
@@ -57,6 +66,7 @@ export function useGoals () {
     getReallyGoalsTryTwo,
     addGoalsTryTwo, 
     goalsTry,
-    deleteGoalTryTwo
+    deleteGoalTryTwo,
+    updateGoalsTryTwo
   }
 }

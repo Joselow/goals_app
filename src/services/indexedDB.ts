@@ -1,6 +1,6 @@
 // API indexedDB  JS
 
-import { DatabaseError, RequestError, ValidationError } from "@/CustomErrors/Index";
+import { DatabaseError, RequestError } from "@/CustomErrors/Index";
 
 import type { Goal } from "@/types";
 interface Response {
@@ -78,8 +78,27 @@ const addGoal = async(data: Goal): Promise <Response> => {
     }
   })
 }
-// const updateGoal = (data: Goal) => {
-// }
+
+const updateGoal = async (data: Goal) => {
+  const db = await openDatabase();
+  console.log(data);
+  
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('goals', 'readwrite')
+    const goals =  transaction.objectStore("goals")
+    const request = goals.put(data)
+    
+    request.onsuccess = () => {      
+      resolve({ message: 'goal updated' })
+    }
+    request.onerror = ()=> {      
+      reject(new RequestError('Error updating goal'));
+    }
+  })
+}
+
+
 const deleteGoal = async(id: string): Promise <Response> => {
   const db = await openDatabase();
 
@@ -98,7 +117,7 @@ const deleteGoal = async(id: string): Promise <Response> => {
 
 } 
 
-export { addGoal, getGoalsS, deleteGoal  }
+export { addGoal, getGoalsS, deleteGoal, updateGoal }
 
 
 

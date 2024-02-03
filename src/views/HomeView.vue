@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import GoalsList from '@/components/Goal/GoalsList.vue';
 import ToastItem from '@/common/ToastItem.vue';
-import { reactive, ref } from 'vue';
-import { markAsUntransferable } from 'worker_threads';
+import { reactive } from 'vue';
 
 const DATA = reactive({
   YES_NO: true,

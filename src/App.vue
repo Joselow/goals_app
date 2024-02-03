@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import ToastLauncher from './common/ToastLauncher.vue';
+
+// onMounted(() => {
+//   window.addEventListener('beforeunload', () => {
+//   closeDatabase(); // Close the database connection before the page unloads
+// });
+
+// })
 </script>
 
 <template>
+  <ToastLauncher/>  
   <header class="relative max-w-5xl m-auto p-4 sm:p-6">
     <div class="absolute ">
       <RouterLink  class="rounded-full px-3 py-1 bg-green-500 " 
@@ -14,8 +23,8 @@ import { RouterLink, RouterView } from 'vue-router'
     <h1 class="text-center font-black text-4xl">Exceed your goals </h1>
   </header>
 
-  <main class="max-w-5xl m-auto mt-6 p-4 sm:p-6">
-    <RouterView />
+  <main class="max-w-5xl m-auto mt-6 p-4 sm:p-6">    
+      <RouterView />
   </main>
 </template>
 

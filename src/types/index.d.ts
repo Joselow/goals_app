@@ -26,3 +26,7 @@ export type Goal = {
   completed: boolean,
   date: Date,
 }
+
+export type StatusResponse = {
+  success: boolean
+}

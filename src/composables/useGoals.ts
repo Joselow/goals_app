@@ -2,28 +2,21 @@ import type { Goal } from "@/types";
 
 import { ref, toValue } from "vue";
 import { useGoaslService } from '@/composables/useGoalService'
+import { useToast } from '@/composables/useToast'
 
-const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry }= useGoaslService()
+const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry } = useGoaslService()
 
 const goals = ref<Goal []>([])
 
-// interface serviceDB {
-//   // getGoals: () =>,
-//   // addGoal: (data: Goal) =>,
-//   // updateGoa: () =>,,
-//   // deleteGoal: () =>,
-// }
+const { launchToast } = useToast()
 
 export function useGoals () {
   const getReallyGoalsTryTwo = async() => {
+    if (goalsTry.value.length) return 
+
     try {
       await getGoalsTry()
-      goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) // - primera opcion que no me convece
-      // ya que tendria que devolver el ref desde aca o llamarlo enel copnnete desde el otro asi que no lo veo aunque
-      // ponete a pensar que puede ser ay que esto ismplement es como si lo suariamos en un componente solo que en
-      // otro archivo  pensando que seria reutilizable pero no es l genralidad asi que croeque taba bien xd
-      // goals.value = sortLastGoalsTry(toValue(goalsTry.value)) // - segunda opcion en la que aca lo meto al ref desde aca  y se chingó
-
+      goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) 
     } catch (error) {
       alert('Nos se porque se rompio creo que soy manco owo')
     }      
@@ -33,15 +26,14 @@ export function useGoals () {
     data.id = crypto.randomUUID()  
     data.date = new Date()  
 
-    try {
-      await addGoalsTry(data)
+    const { success } = await addGoalsTry(data)   
+    if (success) {
       goalsTry.value = sortLastGoalsTry(toValue(goalsTry.value)) 
-    } catch (error) {
-      alert('Nos se porque se rompio creo que soy manco owo')
-    }
+      launchToast({msg: 'Goal created successfully', time: 4000, css: 'bg-green-600'})
+    }  
   }
 
-  const sortLastGoalsTry = (data: Goal[]) => {
+  const sortLastGoalsTry = (data: Goal[]) => {    
     return data.sort((a, b) => {      
       const dateA = a.date.getTime() 
       const dateB = b.date.getTime() 
@@ -51,16 +43,17 @@ export function useGoals () {
 
   const deleteGoalTryTwo = async (id: string) => {
     try {
-      await deleteGoalTry(id)            
+      const { success } = await deleteGoalTry(id)            
+      if (success) {
+        launchToast({msg: 'Goal deleted successfully', time: 4000, css: 'bg-green-600'})
+      }
     } catch (error) {
       alert('Nos se porque se rompio creo que soy manco owo')
     }
   }
 
   return {
-    goals,
-    
-    
+    goals,        
     getReallyGoalsTryTwo,
     addGoalsTryTwo, 
     goalsTry,

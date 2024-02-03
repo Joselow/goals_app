@@ -1,9 +1,8 @@
 // API indexedDB  JS
 
-import { DatabaseError, RequestError, ValidationError } from "@/ManagementErrors/Index";
+import { DatabaseError, RequestError, ValidationError } from "@/CustomErrors/Index";
 
 import type { Goal } from "@/types";
-import { validationCreateGoal } from "@/validations/GoalSchema";
 interface Response {
   message: string,
 }
@@ -34,7 +33,7 @@ const openDatabase = (): Promise<IDBDatabase> => {
   });
 };
 
-const closeDatabase = () => {
+const closeDatabase = () => { // lo dberia usar cuando el usuario ya no interactua con la db
   if (db) {
     db.close();
     db = null;
@@ -56,20 +55,13 @@ const getGoalsS = async (): Promise< Goal []> => {
       const dataFound = request.result as Goal[]        
       resolve(dataFound);
     };
-    // getAllRequest.onerror = function(event: Event ) {            
-    //   reject(new RequestError('Error fetching data from database'));
-    // };
+    getAllRequest.onerror = function() {            
+      reject(new RequestError('Error fetching data from database'));
+    };
   });
 };
-function formatValidationErrors(errors: any[]): string[] {
-  return errors.map(error => `${error.path.join('.')} : ${error.message}`);
-}
+
 const addGoal = async(data: Goal): Promise <Response> => {
-  const result = validationCreateGoal(data)
-  if (!result.success) {
-    const errors = formatValidationErrors(JSON.parse(result.error.message))
-    throw new ValidationError(errors)
-  }
 
   const db = await openDatabase();
 
@@ -82,7 +74,7 @@ const addGoal = async(data: Goal): Promise <Response> => {
       resolve({ message: 'goal created' })
     }
     request.onerror = ()=> {      
-      reject(new DatabaseError('Error creating goal'));
+      reject(new RequestError('Error creating goal'));
     }
   })
 }
@@ -96,11 +88,11 @@ const deleteGoal = async(id: string): Promise <Response> => {
     const goals = transaction.objectStore("goals")
     const request = goals.delete(id)
     
-    request.onsuccess = ((event) => {      
+    request.onsuccess = (() => {      
       resolve({ message: 'goal deleted'});
     })
-    request.onerror = ((event) => {
-      reject(new RequestError('Error creating role'));
+    request.onerror = (() => {
+      reject(new RequestError('Error deleting role'));
     })
   });
 

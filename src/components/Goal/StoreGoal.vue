@@ -75,7 +75,7 @@ onUnmounted(() => {
       </div>
 
       <button
-        class="absolute right-1 top-0  btn text-md hover:text-red-600  transition-all font-black text-red-500 rounded py-1 px-2"
+        class="absolute right-1 top-0 text-md hover:text-red-600  transition-all font-black text-red-500 rounded py-1 px-2"
         @click="closeModal">
         <i class="pi pi-times"></i>
       </button>

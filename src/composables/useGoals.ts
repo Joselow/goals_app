@@ -4,9 +4,10 @@ import { ref, toValue } from "vue";
 import { useGoaslService } from '@/composables/useGoalService'
 import { useToast } from '@/composables/useToast'
 
-const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry, updateGoalsTry } = useGoaslService()
+const { getGoalsTry, goalsTry, addGoalsTry, deleteGoalTry, updateGoalsTry, getGoalTry } = useGoaslService()
 
 const goals = ref<Goal []>([])
+const theGoal = ref<Goal>()
 
 const { launchToast } = useToast()
 
@@ -20,6 +21,13 @@ export function useGoals () {
     } catch (error) {
       alert('Nos se porque se rompio creo que soy manco owo')
     }      
+  }
+
+  const getGoal = async(id: string) => {
+      const { data, success } = await getGoalTry(id)
+      if (success) {
+        theGoal.value = data
+      } 
   }
 
   const addGoalsTryTwo = async (data: Goal) => {
@@ -67,6 +75,8 @@ export function useGoals () {
     addGoalsTryTwo, 
     goalsTry,
     deleteGoalTryTwo,
-    updateGoalsTryTwo
+    updateGoalsTryTwo,
+    getGoal,
+    theGoal
   }
 }

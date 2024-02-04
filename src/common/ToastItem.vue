@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, onUnmounted } from 'vue';
+import { ref, onUnmounted } from 'vue';
 
 interface Props {
   id?: string 
   msg?: string
   time?: number
   css?: string  
+  html?: boolean
 }
 
 const props = defineProps<Props>();
@@ -54,7 +55,12 @@ onUnmounted(() => {
     >
       <div class="me-4">
         <slot>
-          {{ msg?? 'Writte Your message man 😠' }} 
+          <template v-if="html">
+            <section v-html="msg"/>            
+          </template>
+          <template v-else>
+            {{ msg?? 'Writte Your message man 😠' }} 
+          </template>
         </slot>
       </div>
       <!-- <button class=" hover:boder text-red-200 rounded-md hover:text-red-500 transition duration-300" -->

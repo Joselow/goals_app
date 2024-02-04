@@ -7,7 +7,7 @@ const DATA = reactive({
   YES_NO: true,
   TITLE: 'Welcome to this marvel',
   DATA: 'Hi masters, Goals App es tu compañero personal para ayudarte a establecer, rastrear y alcanzar tus objetivos de manera fácil y efectiva. Ya sea que estés planeando tus metas diarias, semanales o anuales, Goals App está aquí para hacer que el proceso sea divertido y alcanzable.',
-  DATA_EN :'Goals App is your support parner to sett, track and reach your INCREIBLE GOALS easly and effective.If you are planing your daily, weely, o anuals goals, Goasl App is here to make funny and posible all the procees'
+  DATA_EN :'Goals App is your supportive companion to set, track and achieve your amazing goals easily and effectively.Whether you are planning your daily, weekly or yearly goals, Goals App is here to make the whole process fun and possible.'
 })
 </script>
 

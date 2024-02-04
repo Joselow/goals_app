@@ -5,14 +5,15 @@ interface Toast {
   msg?: string
   time?: number
   css?: string
+  html?: boolean
 }
 const toasts: Ref<Toast[]> = ref([])
 
 export function useToast() {
 
-  const launchToast = ({ msg, time, css = ''} : Toast) => {    
+  const launchToast = ({ msg, time, css = '', html} : Toast) => {    
     const id = crypto.randomUUID()
-    const toast: Toast = { msg, time, css, id }    
+    const toast: Toast = { msg, time, css, id, html }    
     toasts.value.push(toast);
   };
   

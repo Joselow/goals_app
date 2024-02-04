@@ -79,6 +79,24 @@ const addGoal = async(data: Goal): Promise <Response> => {
   })
 }
 
+const getGoal = async (id: string): Promise<Goal> => {
+  const db = await openDatabase();  
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction('goals', 'readwrite')
+    const goals =  transaction.objectStore("goals")
+    const request = goals.get(id)
+    
+    request.onsuccess = (event: Event) => {      
+      const request = event.target as IDBRequest
+      const dataFound = request.result as Goal            
+      resolve(dataFound);
+    }
+    request.onerror = ()=> {      
+      reject(new RequestError('Error updating goal'));
+    }
+  })
+}
 const updateGoal = async (data: Goal) => {
   const db = await openDatabase();
   console.log(data);
@@ -117,7 +135,7 @@ const deleteGoal = async(id: string): Promise <Response> => {
 
 } 
 
-export { addGoal, getGoalsS, deleteGoal, updateGoal }
+export { addGoal, getGoalsS, deleteGoal, updateGoal, getGoal }
 
 
 

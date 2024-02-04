@@ -28,8 +28,8 @@ const GoalScheme = z.object({
     completed: z.boolean(),
   }))
   .optional(),
-  comment: z.string().optional(),
-  // comment: z.string(),
+  // comment: z.string().optional(),
+  comment: z.string(),
   completed: z.boolean(),
 })
 

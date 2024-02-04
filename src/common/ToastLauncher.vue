@@ -32,9 +32,8 @@ onUnmounted(() => {
             :css="toast.css"
             :msg="toast.msg"
             :time="toast.time"
-          >
-            {{ toast.msg ?? 'Your message' }}
-          </ToastItem>    
+            :html="toast.html"
+          /> 
         </li>
       </TransitionGroup >
     </div>

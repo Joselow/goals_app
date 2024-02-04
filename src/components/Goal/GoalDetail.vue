@@ -5,21 +5,28 @@ import CustomModal from '@/common/CustomModal.vue';
 import { useGoals } from '@/composables/useGoals';
 import type { Goal } from '@/types';
 
-const { goalsTry, updateGoalsTryTwo } = useGoals()
+const { goalsTry, updateGoalsTryTwo, getGoal, theGoal } = useGoals()
 
 const props = defineProps<{ id: string }>()
-const theGoal = ref<Goal>()
 
 const deadline = reactive({
   num: 3,
   text: 'weeks',
 })
 
-if (goalsTry.value.length){
-  theGoal.value = goalsTry.value.find(({ id }) => id === props.id)
-} else {
-  // theGoal.value = getGoal(id)
+const findInGoals = (idGoal: string) => {
+  return goalsTry.value.find(({ id }) => id === idGoal)
 }
+
+const findTheGoal = () => {
+  if (goalsTry.value.length){
+    theGoal.value = findInGoals(props.id)
+  } else {
+    getGoal(props.id)
+  }
+}
+
+findTheGoal()
 
 const deadlinesModal = ref(false)
 const openDeadlinesModal = () => deadlinesModal.value = true
